@@ -1,0 +1,18 @@
+# Create initial data frame of all combinations of factors
+combinations <- expand.grid(Phosphorous = c("None","Med","High"), Nitrogen = c("None","Med","High"))
+combinations <- rbind(combinations,combinations,combinations,combinations) # if we choose to have 4 replicates instead of 1
+
+# set to number of islands
+num_islands <- 3
+
+# creates designByIsland
+designByIsland <- list()
+
+for(island in 1:num_islands){
+  set.seed(100+island) # set seeds 101, 102, etc.
+  designByIsland[[island]] <- combinations[sample(nrow(combinations), size = nrow(combinations), replace = FALSE), ]
+  rownames(designByIsland[[island]]) <- NULL
+}
+
+# Use designByIsland[[island number]] to retrieve treatment assignments for a particular block
+# example: designByIsland[[1]] shows order of treatments to assign to block 1
